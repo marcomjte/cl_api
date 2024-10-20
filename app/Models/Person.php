@@ -27,7 +27,7 @@ class Person extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'note', 'date_of_birth', 'url_web_age', 'work_company'];
+    protected $fillable = ['name', 'note', 'date_of_birth', 'url_web_page', 'work_company'];
 
 
     public function phones()

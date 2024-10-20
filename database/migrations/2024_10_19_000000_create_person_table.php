@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('note')->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->string('url_web_age')->nullable();
+            $table->string('url_web_page')->nullable();
             $table->string('work_company')->nullable();
             $table->timestamps();
         });
