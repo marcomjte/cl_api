@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::create('phone', function (Blueprint $table) {
             $table->id();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->timestamps();
             $table->foreignId('person_id')
                 ->constrained(table: 'person', indexName: 'phone_person_id_foreign_key')
@@ -33,7 +33,7 @@ return new class extends Migration
 
         Schema::create('email', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamps();
             $table->foreignId('person_id')
                 ->constrained(table: 'person', indexName: 'email_person_id_foreign_key')
