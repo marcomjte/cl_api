@@ -17,4 +17,5 @@ Route::prefix('/person')->group(function () {
 
     Route::put('/{id}', [PersonController::class, 'update']);
     
+    Route::delete('/{id}', [PersonController::class, 'destroy']);
 });
