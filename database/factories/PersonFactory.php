@@ -21,8 +21,8 @@ class PersonFactory extends Factory
             'name' => fake()->name(),
             'note' => fake()->realText(20),
             'date_of_birth' => fake()->dateTimeBetween($startDate = '-10 years', $endDate = 'now', $timezone = null, $format = 'Y-m-d H:i:s', $max = 'now'),
-            'url_web_age' => fake()->url(),
-            'work_company' => fake()->sentence()
+            'url_web_page' => fake()->url(),
+            'work_company' => fake()->realText(20)
         ];
     }
 }

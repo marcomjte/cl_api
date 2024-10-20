@@ -17,10 +17,10 @@ class PersonSeeder extends Seeder
      */
     public function run(): void
     {
-        $person = Person::factory(250)
-            ->has(Phone::factory()->count(fake()->randomDigit()))
-            ->has(Email::factory()->count(fake()->randomDigit()))
-            ->has(Address::factory()->count(fake()->randomDigit()))
+        $person = Person::factory(5000)
+            ->has(Phone::factory()->count(fake()->randomDigit(2)))
+            ->has(Email::factory()->count(fake()->randomDigit(3)))
+            ->has(Address::factory()->count(fake()->randomDigit(4)))
             ->create();
     }
 }
