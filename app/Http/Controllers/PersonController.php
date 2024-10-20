@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\PersonResource;
+use App\Http\Resources\PersonCollection;
 use Illuminate\Support\Facades\Validator;
 
 Use App\Models\Person;
@@ -13,6 +14,10 @@ Use App\Models\Address;
 
 class PersonController extends Controller
 {
+    public function getAll(){
+      return new PersonCollection(Person::all());
+    }
+
     public function store(Request $request){
       try{
         $validate = Validator::make($request->all(), [
