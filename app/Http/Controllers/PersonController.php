@@ -14,8 +14,24 @@ Use App\Models\Address;
 
 class PersonController extends Controller
 {
-    public function getAll(){
-      return new PersonCollection(Person::all());
+    public function getAll(Request $request){
+      $valueSearch = $request->query('valueSearch');
+      $persons = Person::join('phone', 'phone.person_id', '=', 'person.id')
+        ->join('email', 'email.person_id', '=', 'person.id')
+        ->join('address', 'address.person_id', '=', 'person.id')
+        ->where(function ($query) use($valueSearch){
+          $query
+            ->orWhere('person.id', '=', '%'.$valueSearch)
+            ->orWhere('person.name', 'like', '%'.$valueSearch.'%')
+            ->orWhere('phone.phone_number', 'like', '%'.$valueSearch.'%')
+            ->orWhere('email.email', 'like', '%'.$valueSearch.'%')
+            ->orWhere('address.address', 'like', '%'.$valueSearch.'%');
+        })
+        ->select('person.*')
+        ->groupBy('person.id')
+        ->limit(10)
+        ->paginate(30);
+      return new PersonCollection($persons);
     }
 
     public function store(Request $request){
@@ -35,14 +51,14 @@ class PersonController extends Controller
         $person->name = $request->name;
         $person->note = $request->note;
         $person->date_of_birth = $request->date_of_birth;
-        $person->url_web_age = $request->url_web_age;
+        $person->url_web_page = $request->url_web_page;
         $person->work_company = $request->work_company;
         $person->save();
 
         if($request->phones && count($request->phones) > 0){
           foreach ($request->phones as $key => $item) {
             $phone = new Phone();
-            $phone->phone_number = $item["phone_number"];
+            $phone->phone_number = $item;
             $phone->person_id = $person->id;
             $phone->save();
           }
@@ -51,7 +67,7 @@ class PersonController extends Controller
         if($request->emails && count($request->emails) > 0){
           foreach ($request->emails as $key => $item) {
             $email = new Email();
-            $email->email = $item["email"];
+            $email->email = $item;
             $email->person_id = $person->id;
             $email->save();
           }
@@ -60,7 +76,7 @@ class PersonController extends Controller
         if($request->addresses && count($request->addresses) > 0){
           foreach ($request->addresses as $key => $item) {
             $address = new Address();
-            $address->address = $item["address"];
+            $address->address = $item;
             $address->person_id = $person->id;
             $address->save();
           }
@@ -88,7 +104,7 @@ class PersonController extends Controller
         $person->name = $request->name;
         $person->note = $request->note;
         $person->date_of_birth = $request->date_of_birth;
-        $person->url_web_age = $request->url_web_age;
+        $person->url_web_page = $request->url_web_page;
         $person->work_company = $request->work_company;
         $person->save();
 
