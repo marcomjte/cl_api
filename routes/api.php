@@ -10,5 +10,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('/person')->group(function () {
+
     Route::get('/{id}', [PersonController::class, 'show']);
+
+    Route::post('/', [PersonController::class, 'store']);
+    
 });
