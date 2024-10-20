@@ -139,7 +139,7 @@ class PersonController extends Controller
     public function show($id){
       $person = Person::find($id);
       if(!$person){
-        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],200);
+        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
       }
       return new PersonResource($person);
     }
@@ -147,7 +147,7 @@ class PersonController extends Controller
     public function destroy($id){
       $person = Person::find($id);
       if(!$person){
-        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],200);
+        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
       }
       Person::destroy($id);
       return response()->json(['data'=>[],'message'=>'El registro se ha eliminado correctamente.'],200);
