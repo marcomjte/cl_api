@@ -14,5 +14,7 @@ Route::prefix('/person')->group(function () {
     Route::get('/{id}', [PersonController::class, 'show']);
 
     Route::post('/', [PersonController::class, 'store']);
+
+    Route::put('/{id}', [PersonController::class, 'update']);
     
 });
