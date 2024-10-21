@@ -81,9 +81,9 @@ class PersonController extends Controller
             $address->save();
           }
         }
-        return response()->json(['data'=>[],'message'=>'El registro se ha realizado correctamente.'],200);
+        return response()->json(['status' => 'success', 'data'=>[], 'message'=>'El registro se ha realizado correctamente.'],200);
       }catch(Exception $e){
-        return response()->json(['data'=>[],'message'=>'Ocurrió un problema al intentar realizar la petición, revisa los datos o vuelve a intentar. - '.$e->getMessage()],403);
+        return response()->json(['status' => 'error', 'data'=>[], 'message'=>'Ocurrió un problema al intentar realizar la petición, revisa los datos o vuelve a intentar. - '.$e->getMessage()],403);
       }
     }
 
@@ -109,53 +109,62 @@ class PersonController extends Controller
         $person->save();
 
         if($request->phones && count($request->phones) > 0){
+          // Se borran registros eliminados desde sistema front end
+          $deletes = Phone::whereNotIn('phone_number', $request->phones)->where('person_id', '=', $person->id)->delete();
+
           foreach ($request->phones as $key => $item) {
-            if($item["id"] != "0"){
-              $phone = Phone::find($item["id"]);
-            }else{
+            $phone = Phone::where('phone_number', '=', $item)->where('person_id', '=', $person->id)->first();
+            // Registramos los nuevos datos
+            if(!$phone){
               $phone = new Phone();
+              $phone->phone_number = $item;
+              $phone->person_id = $person->id;
+              $phone->save();
             }
-            $phone->phone_number = $item["phone_number"];
-            $phone->person_id = $person->id;
-            $phone->save();
           }
         }
 
         if($request->emails && count($request->emails) > 0){
+          // Se borran registros eliminados desde sistema front end
+          $deletes = Email::whereNotIn('email', $request->emails)->where('person_id', '=', $person->id)->delete();
+
           foreach ($request->emails as $key => $item) {
-            if($item["id"] != "0"){
-              $email = Email::find($item["id"]);
-            }else{
+            $email = Email::where('email', '=', $item)->where('person_id', '=', $person->id)->first();
+            // Registramos los nuevos datos
+            if(!$email){
               $email = new Email();
+              $email->email = $item;
+              $email->person_id = $person->id;
+              $email->save();
             }
-            $email->email = $item["email"];
-            $email->person_id = $person->id;
-            $email->save();
           }
         }
 
         if($request->addresses && count($request->addresses) > 0){
+          // Se borran registros eliminados desde sistema front end
+          $deletes = Address::whereNotIn('address', $request->addresses)->where('person_id', '=', $person->id)->delete();
+
           foreach ($request->addresses as $key => $item) {
-            if($item["id"] != "0"){
-              $address = Address::find($item["id"]);
-            }else{
+            $address = Address::where('address', '=', $item)->where('person_id', '=', $person->id)->first();
+            // Registramos los nuevos datos
+            if(!$address){
               $address = new Address();
+              $address->address = $item;
+              $address->person_id = $person->id;
+              $address->save();
             }
-            $address->address = $item["address"];
-            $address->person_id = $person->id;
-            $address->save();
           }
         }
-        return response()->json(['data'=>[],'message'=>'El registro se ha realizado correctamente.'],200);
+        return response()->json(['status' => 'success', 'data'=>[],'message'=>'El registro se ha realizado correctamente.'],200);
       }catch(Exception $e){
-        return response()->json(['data'=>[],'message'=>'Ocurrió un problema al intentar realizar la petición, revisa los datos o vuelve a intentar. - '.$e->getMessage()],403);
+        return response()->json(['status' => 'error', 'data'=>[],'message'=>'Ocurrió un problema al intentar realizar la petición, revisa los datos o vuelve a intentar. - '.$e->getMessage()],403);
       }
     }
 
     public function show($id){
       $person = Person::find($id);
       if(!$person){
-        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
+        return response()->json(['status' => 'error', 'data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
       }
       return new PersonResource($person);
     }
@@ -163,9 +172,9 @@ class PersonController extends Controller
     public function destroy($id){
       $person = Person::find($id);
       if(!$person){
-        return response()->json(['data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
+        return response()->json(['status' => 'error', 'data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);
       }
       Person::destroy($id);
-      return response()->json(['data'=>[],'message'=>'El registro se ha eliminado correctamente.'],200);
+      return response()->json(['status' => 'success', 'data'=>[],'message'=>'El registro se ha eliminado correctamente.'],200);
     }
 }
