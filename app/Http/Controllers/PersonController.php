@@ -161,7 +161,7 @@ class PersonController extends Controller
       }
     }
 
-    public function show($id){
+    public function getByID($id){
       $person = Person::find($id);
       if(!$person){
         return response()->json(['status' => 'error', 'data'=>[],'message'=>'No existen registros con el ID enviado o el tipo de dato no es correcto.'],403);

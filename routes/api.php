@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('/person')->group(function () {
     Route::get('/', [PersonController::class, 'getAll']);
 
-    Route::get('/{id}', [PersonController::class, 'show']);
+    Route::get('/{id}', [PersonController::class, 'getByID']);
 
     Route::post('/', [PersonController::class, 'store']);
 
