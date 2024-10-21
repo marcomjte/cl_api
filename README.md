@@ -8,7 +8,7 @@ Tener previa instalación de "composer" en su versión 2.6.6
 
 Ejecutar `composer install` para realizar la instalación de los paquetes necesarios.
 
-Configurar las variables de entorno para la conexión a la base de datos, configurar el archivo .env las siguietes lineas por la configuración de tu computadora
+Configurar las variables de entorno para la conexión a la base de datos, configurar el archivo .env las siguietes lineas por la configuración de tu computadora. NOTA: Para el nombre de la DB_DATABASENAME debe de existir una base de datos previamente creada en su servidor local.
 
 DB_CONNECTION=mysql
 
